@@ -77,7 +77,8 @@ foreach($posts as $p)
 	$output = str_replace("{sharing}", $sharing, $output);
 	$output = str_replace("{body}", "<h1>{$p["Title"]}</h1>" . $Parsedown->text($p["content"]), $output);
 
-	// Add to menu pages
+	// Tags
+	$tagList = "";
 	if(strlen($p["Tags"]) > 1)
 	{
 		$tagList = "<br /><strong>Tags:</strong> ";
@@ -88,6 +89,8 @@ foreach($posts as $p)
 		}
 		$output = str_replace("{tag-list}", $tagList, $output);
 	}
+
+	$output = str_replace("{tag-list}", $tagList, $output);
 
 	file_put_contents("../blog/{$p["Slug"]}.html", $output);
 	$new_files[] = $p["Slug"].".html";
