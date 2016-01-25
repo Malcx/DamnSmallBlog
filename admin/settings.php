@@ -109,7 +109,7 @@ foreach($errors as $e)
 <hr />
 <h3>Appearance</h3>
 <label>Blog Name:</label> <input type="text" name="blogname" value="<?php echo $blogname;?>" /><br />
-<label>Menu String:</label> <input type="text" name="menu" value="<?php echo $menu;?>" /> <nobr><small>Markdown string for the main menu, e.g. [Projects](/blog/projects.html) [Contact](/blog/contact.html).</small></nobr><br />
+<label>Menu String:</label> <input type="text" name="menu" value="<?php echo $menu;?>" /> <nobr><small>Markdown string for the main menu, e.g. [Projects](/blog/projects.html) </nobr> <nobr>[Contact](/blog/contact.html).</small></nobr><br />
 <label>Logo URL:</label> <input type="text" name="logoURL" value="<?php echo $logoURL;?>" /><nobr> <small>URL of image to use as logo.</small></nobr><br />
 <label>Copyright Text:</label> <input type="text" name="copyright" value="<?php echo $copyright;?>" /><br />
 

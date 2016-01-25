@@ -100,14 +100,13 @@ imagecopyresampled( $Temp, $SRC, 0,0, 0,0, $Width1,$Height1, $Width2,$Height2) ;
 //$Temp = imagecopyresized( $Temp, $SRC, 0,0, 0,0, $Width1,$Height1, $Width2,$Height2) ;
  
 ob_start(); // start a new output buffer
-   imagejpeg( $Temp, "", 90 );
+   imagejpeg( $Temp, null, 90 );
    $ImageData = ob_get_contents();
    $ImageDataLength = ob_get_length();
 ob_end_clean(); // stop this output buffer
  
 //echo $ImageDataLength;
- 
- 
+// exit();
 $Date = date("D, d M Y") ;
 header("Pragma: cache") ;
 header("Last-Modified: $Date 00:00:00 GMT") ;
@@ -116,6 +115,7 @@ header("Content-Length: ".$ImageDataLength);
 echo $ImageData;
 //imagejpeg( $Temp, "", 90 ) ;
  
+// exit();
 // Save it for future usage
 $handle = fopen($data_path . "/thumbs/" .$processedImageName, 'a');
 fwrite ($handle, $ImageData );
