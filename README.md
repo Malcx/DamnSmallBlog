@@ -41,7 +41,10 @@ Upload everything to the root folder (no support for subfolder installation yet)
 
 
 ## Usage
-Everything should be obvious although I will write better instructions here in due course
+
+After installation log in to the CMS via {your-domain}/admin.
+
+If you forget your password you will need to open up the config.php file and edit by hand.
 
 Posts are written using [Markdown](https://daringfireball.net/projects/markdown/syntax)
 
@@ -52,6 +55,9 @@ Youtube videos can be embedded with
 e.g.
 
 ^ wCDIYvFmgW8
+
+Everything else should be obvious although I will write better instructions here in due course.
+
 
 ## Demo
 No demo of the CMS at the moment - but my site [Malcx](http://www.malcx.com) is the product of the front end.
