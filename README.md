@@ -61,7 +61,7 @@ This uses a, currently adapted, version of [Parsedown](https://github.com/erusev
 
 Much of the front end layout and styling is taken from: [bettermotherfuckingwebsite.com](http://bettermotherfuckingwebsite.com/)
 
-Current planned upgrades:
+## Current planned upgrades:
 * Auto generated sitemap.xml
 * Add preview option for posts
 * Auto generate robots.txt
