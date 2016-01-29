@@ -67,4 +67,5 @@ Much of the front end layout and styling is taken from: [bettermotherfuckingwebs
 * Auto generate robots.txt
 * Upload and include favicon
 * Amend ParseDown to handle youtube correctly as a plugin
-* Restructure CMS interface to allow 
+* Restructure CMS interface to allow translations
+
