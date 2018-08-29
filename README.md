@@ -68,15 +68,16 @@ This uses a, currently adapted, version of [Parsedown](https://github.com/erusev
 Much of the front end layout and styling is taken from: [bettermotherfuckingwebsite.com](http://bettermotherfuckingwebsite.com/)
 
 ## Current planned upgrades:
+* Amend the way media are embedded e.g. [media="youtube"]yoUtuBe-ID[/media]
+* some sort of commenting system?
 * share icons not showing on "index" pages
 * Make headlines link to their pages? Or always add a more link on index pages?
 * Auto generated sitemap.xml
+* gAnalytaics - image version only - not JS
 * Add preview option for posts
 * Auto generate robots.txt
 * Upload and include favicon
-* Amend ParseDown to handle youtube correctly as a plugin
-* Restructure CMS interface to allow translations
 * RSS
 * Date / more meta displayed
-* some sort of commenting system?
+* Restructure CMS interface to allow translations
 
