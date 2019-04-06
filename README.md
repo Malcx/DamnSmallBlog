@@ -71,13 +71,18 @@ Much of the front end layout and styling is taken from: [bettermotherfuckingwebs
 * Amend the way media are embedded e.g. [media="youtube"]yoUtuBe-ID[/media]
 * some sort of commenting system?
 * share icons not showing on "index" pages
-* Make headlines link to their pages? Or always add a more link on index pages?
-* Auto generated sitemap.xml
-* gAnalytaics - image version only - not JS
-* Add preview option for posts
 * Auto generate robots.txt
-* Upload and include favicon
+* Auto generated sitemap.xml
 * RSS
 * Date / more meta displayed
-* Restructure CMS interface to allow translations
+* Upload and include favicon
+* Apple homescreen link
+* Android homescreen icon
+* Cheetsheet link in cms https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet
+* Backup script
+* Add preview option for posts
 
+
+## Latest updates
+* Make headlines link to their pages? Or always add a more link on index pages?
+* gAnalytaics - image version only - not JS
