@@ -81,6 +81,18 @@ Much of the front end layout and styling is taken from: [bettermotherfuckingwebs
 * Cheetsheet link in cms https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet
 * Backup script
 * Add preview option for posts
+* Generate index page and multiple pages > 
+* Restructure so that 
+-- _DSB_engine contains engine
+-- _DSB_settings contains config, template.html
+-- blog - as is
+
+
+
+
+
+
+
 
 
 ## Latest updates

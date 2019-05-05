@@ -20,7 +20,19 @@ $new_files = array();
 $tagPages = array(); // pages listing by category
 
 
-$googleAnalytics = ($_CONFIG["googleAnalytics"]) ? "<script>  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');  ga('create', '{$_CONFIG["googleAnalytics"]}', 'auto');  ga('send', 'pageview');</script>" : "";
+$_BASEURL = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]";
+
+
+
+$googleAnalytics = "";
+if($_CONFIG["googleAnalytics"] && !$_CONFIG["noJS"])
+	$googleAnalytics = "<script>  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');  ga('create', '{$_CONFIG["googleAnalytics"]}', 'auto');  ga('send', 'pageview');</script>";
+if($_CONFIG["googleAnalytics"] && $_CONFIG["noJS"])
+	$googleAnalytics = "<img src=\"/viewtracker.php?p={urlencode_url}\" style=\"width:1px;\" alt=\"\" />";
+//	$googleAnalytics = "<img src=\"/viewtracker.php?dl={urlencode_url}&dt={urlencode_title}\" style=\"width:1px;\" alt=\"\" />";
+
+
+
 
 $copyright = $_CONFIG["copyright"] ? "<small>{$_CONFIG["copyright"]}<br /></small>" : "";
 
@@ -46,14 +58,14 @@ if($_CONFIG["menu"])
 $menu .= "</tr></table>";
 
 
-
-// Generate actual posts
+//*********************
+// Generate posts pages
+//*********************
 $posts = loadPosts("LIVE", "DATE");
 foreach($posts as $p)
 {
 
-	$directURL = $_CONFIG["baseDomain"] ? $_CONFIG["baseDomain"] : "http://{$_SERVER["HTTP_HOST"]}";
-	$directURL .= "/blog/{$p["Slug"]}.html";
+	$directURL = $_BASEURL . "/blog/{$p["Slug"]}.html";
 	$shareTitle = urlencode($p["Title"]);
 	
 	$sharing = "";
@@ -66,14 +78,18 @@ foreach($posts as $p)
 	if(strpos($_CONFIG["social"], "Twitter"))
 		$sharing .= "[<a href=\"https://twitter.com/intent/tweet?text={$shareTitle}&url={$directURL}\" target=\"_blank\">Twitter</a>] ";
 	if($sharing)
-		$sharing = "<strong>Share this on:</strong><br />" . $sharing . "<br />";
+		$sharing = "<br /><strong>Share this on:</strong><br />" . $sharing . "<br />";
+
 	
+
 	$output = str_replace("{title}", $p["Title"], $template);
 	$output = str_replace("{description}", $p["Tags"] . " - " . $p["Title"], $output);
 	$output = str_replace("{tags}", $p["Tags"], $output);
 	$output = str_replace("{menu}", $menu, $output);
 	$output = str_replace("{copyright}", $copyright, $output);
 	$output = str_replace("{googleAnalytics}", $googleAnalytics, $output);
+	$output = str_replace("{urlencode_title}", urlencode($p["Title"]), $output);
+	$output = str_replace("{urlencode_url}", urlencode("/blog/{$p["Slug"]}.html"), $output);
 	$output = str_replace("{sharing}", $sharing, $output);
 	$output = str_replace("{body}", "<h1>{$p["Title"]}</h1>" . $Parsedown->text($p["content"]), $output);
 
@@ -111,7 +127,10 @@ foreach($posts as $p)
 	}
 }
 
-// make index pages...
+
+//*********************
+// generate index pages based on TAG
+//*********************
 foreach($tagPages as $tpk => $tpv)
 {
 	$myBody = "";
@@ -124,6 +143,8 @@ foreach($tagPages as $tpk => $tpv)
 	$output = str_replace("{menu}", $menu, $output);
 	$output = str_replace("{copyright}", $copyright, $output);
 	$output = str_replace("{googleAnalytics}", $googleAnalytics, $output);
+	$output = str_replace("{urlencode_title}", urlencode("Index of posts tagged with: $tpk"), $output);
+	$output = str_replace("{urlencode_url}", urlencode("/blog/index-of-{$tpk}.html"), $output);
 	$output = str_replace("{sharing}", "", $output);
 	$output = str_replace("{tag-list}", "", $output);
 	$output = str_replace("{body}", "<h1>Index of posts tagged with: $tpk</h1>" . $myBody, $output);
@@ -132,7 +153,9 @@ foreach($tagPages as $tpk => $tpv)
 }
 
 
-// Main subjects listing:
+//*********************
+// Page listing all tags
+//*********************
 ksort($tagPages);
 $myBody = "";
 foreach($tagPages as $tpk => $tpv)
@@ -142,9 +165,12 @@ foreach($tagPages as $tpk => $tpv)
 }
 $output = str_replace("{title}", "Index of all tags", $template);
 $output = str_replace("{tags}", "", $output);
+$output = str_replace("{description}", $tpk, $output);
 $output = str_replace("{menu}", $menu, $output);
 $output = str_replace("{copyright}", $copyright, $output);
 $output = str_replace("{googleAnalytics}", $googleAnalytics, $output);
+$output = str_replace("{urlencode_title}", urlencode("Index of all tags"), $output);
+$output = str_replace("{urlencode_url}", urlencode("/blog/index-of-ALL-TAGS.html"), $output);
 $output = str_replace("{sharing}", "", $output);
 $output = str_replace("{tag-list}", "", $output);
 $output = str_replace("{body}", "<h1>Index of all tags</h1>" . $myBody, $output);
@@ -152,7 +178,11 @@ file_put_contents("../blog/index-of-ALL-TAGS.html", $output);
 $new_files[] = "index-of-ALL-TAGS.html";
 
 
-// TODO make homepage and paginated pages
+
+
+//*********************
+// Generate home page (and paginated)
+//*********************
 $pageOn = 0;
 $postCount = 0;
 $thisBody = "";
@@ -166,10 +196,10 @@ while(count($postsWIP))
 {
 	$p = array_shift($postsWIP);
 	$thisPostContent = getExtract($p["content"], $_CONFIG['fullOrPart'], "/blog/{$p["Slug"]}.html");
-	$thisBody .= "<h1>{$p["Title"]}</h1>" . $Parsedown->text($thisPostContent);
+	$thisBody .= "<h1><a href=\"/blog/{$p["Slug"]}.html\">{$p["Title"]}</a></h1><small>{$p["Publish Date"]}</small>" . $Parsedown->text($thisPostContent);
 	$postCount++;
 	if($postCount != $_CONFIG["itemsPerPage"] && count($postsWIP))
-		$thisBody .= "<hr /><hr />";
+		$thisBody .= "<hr />";
 	if($postCount == $_CONFIG["itemsPerPage"])
 	{
 		$pageTitle = "{$_CONFIG["blogname"]} Page $pageOn";
@@ -180,11 +210,18 @@ while(count($postsWIP))
 		if(count($postsWIP) || $pageOn)
 			$thisFooter = "<hr /><table width=\"100%\"><tr><td>" . ($pageOn ? "<a href=\"/blog/index-".($pageOn-1).".html\">&laquo;Previous posts</a>" : "") . "</td><td align=\"right\">" . (count($postsWIP) ? "<a href=\"/blog/index-".($pageOn+1).".html\">More posts &raquo;</a>" : "") . "</td></tr></table>";
 
+		// The home page 
 		$output = str_replace("{title}", $pageTitle, $template);
 		$output = str_replace("{tags}", "", $output);
+		$output = str_replace("{description}", $pageTitle, $output);
 		$output = str_replace("{menu}", $menu, $output);
 		$output = str_replace("{copyright}", $copyright, $output);
 		$output = str_replace("{googleAnalytics}", $googleAnalytics, $output);
+		$output = str_replace("{urlencode_title}", urlencode($pageTitle), $output);
+		if($pageOn>0)
+			$output = str_replace("{urlencode_url}", urlencode("/index-$pageOn.html"), $output);
+		else
+			$output = str_replace("{urlencode_url}", urlencode("/"), $output);
 		$output = str_replace("{sharing}", "", $output);
 		$output = str_replace("{tag-list}", "", $output);
 		$output = str_replace("{body}", $thisBody.$thisFooter, $output);
@@ -211,11 +248,15 @@ if(strlen($thisBody))
 	if(count($postsWIP) || $pageOn)
 		$thisFooter = "<hr /><table width=\"100%\"><tr><td>" . ($pageOn ? "<a href=\"/blog/index-".($pageOn-1).".html\">&laquo;Previous posts</a>" : "") . "</td><td align=\"right\">" . (count($postsWIP) ? "<a href=\"/blog/index-".($pageOn+1).".html\">More posts &raquo;</a>" : "") . "</td></tr></table>";
 
+	// The home page if paginated
 	$output = str_replace("{title}", $pageTitle, $template);
 	$output = str_replace("{tags}", "", $output);
+	$output = str_replace("{description}", $pageTitle, $output);
 	$output = str_replace("{menu}", $menu, $output);
 	$output = str_replace("{copyright}", $copyright, $output);
 	$output = str_replace("{googleAnalytics}", $googleAnalytics, $output);
+	$output = str_replace("{urlencode_title}", urlencode($pageTitle), $output);
+	$output = str_replace("{urlencode_url}", urlencode("/blog/index-$pageOn.html"), $output);
 	$output = str_replace("{sharing}", "", $output);
 	$output = str_replace("{tag-list}", "", $output);
 	$output = str_replace("{body}", $thisBody.$thisFooter, $output);
@@ -242,6 +283,7 @@ foreach($original_files as $f)
 @file_put_contents("data/amends.dat", 0, LOCK_EX);
 $_SESSION["successmessage"] = "Site generated!";
 header("Location: /admin");
+//echo "genereated - now redirect";
 exit(0);
 
 
