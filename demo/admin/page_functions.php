@@ -175,9 +175,6 @@ function saveConfigFile($args){ // pass an array of just the values that have ch
 	$config .= "$"."_CONFIG['googleAnalytics'] = \"";
 	  $config .= isset($args["googleAnalytics"]) ? $args["googleAnalytics"] : (isset($_CONFIG["googleAnalytics"]) ? $_CONFIG["googleAnalytics"] : "");
 	  $config .= "\";\n";
-	$config .= "$"."_CONFIG['milligram'] = ";
-	  $config .= isset($args["milligram"]) ? $args["milligram"] : (isset($_CONFIG["milligram"]) ? $_CONFIG["milligram"] : "");
-	  $config .= ";\n";
 	$config .= "$"."_CONFIG['social'] = \"";
 	  $config .= isset($args["social"]) ? $args["social"] : (isset($_CONFIG["social"]) ? $_CONFIG["social"] : "&HackerNews&Reddit&Facebook&Twitter");
 	  $config .= "\";\n";

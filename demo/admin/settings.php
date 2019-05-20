@@ -12,22 +12,20 @@ include_once("page_functions.php");
 
 $errors = array();
 
-$blogname = htmlentities($_CONFIG["blogname"]);
-$username = $_CONFIG["username"];
-$password = $_CONFIG["password"];
-$baseDomain = $_CONFIG["baseDomain"];
-$fullOrPart = $_CONFIG["fullOrPart"];
-$itemsPerPage = $_CONFIG["itemsPerPage"];
-$menu = htmlentities($_CONFIG["menu"]);
-$logoURL = $_CONFIG["logoURL"];
-$copyright = htmlentities($_CONFIG["copyright"]);
-$googleAnalytics = $_CONFIG["googleAnalytics"];
-$hackernews = strpos($_CONFIG["social"], "HackerNews") ? true : false;
-$reddit = strpos($_CONFIG["social"], "Reddit") ? true : false;
-$facebook = strpos($_CONFIG["social"], "Facebook") ? true : false;
-$twitter = strpos($_CONFIG["social"], "Twitter") ? true : false;
-$milligram = isset($_CONFIG["milligram"]) ? $_CONFIG["milligram"] :false;
-$noJS = isset($_CONFIG["noJS"]) ? $_CONFIG["noJS"] :false;
+$blogname = "";
+$username = "";
+$password = "";
+$baseDomain = "";
+$fullOrPart = "FULL";
+$itemsPerPage = 5;
+$menu = "";
+$logoURL = "";
+$copyright = "";
+$googleAnalytics = "";
+$hackernews = false;
+$reddit = false;
+$facebook = false;
+$twitter = false;
 
 if(isset($_REQUEST["submitting"]))
 {
@@ -50,7 +48,6 @@ if(isset($_REQUEST["submitting"]))
 
 	$saveArray["social"] = "&" . $_REQUEST["hackernews"] . "&" . $_REQUEST["reddit"] . "&" . $_REQUEST["facebook"] . "&" . $_REQUEST["twitter"];
 	
-	$saveArray["milligram"] = $_REQUEST["milligram"];
 
 
 	saveConfigFile($saveArray);
@@ -60,6 +57,24 @@ if(isset($_REQUEST["submitting"]))
 	header("Location: /admin");
 	exit(0);
 
+}
+else
+{
+
+	$blogname = htmlentities($_CONFIG["blogname"]);
+	$username = $_CONFIG["username"];
+	$password = $_CONFIG["password"];
+	$baseDomain = $_CONFIG["baseDomain"];
+	$fullOrPart = $_CONFIG["fullOrPart"];
+	$itemsPerPage = $_CONFIG["itemsPerPage"];
+	$menu = htmlentities($_CONFIG["menu"]);
+	$logoURL = $_CONFIG["logoURL"];
+	$copyright = htmlentities($_CONFIG["copyright"]);
+	$googleAnalytics = $_CONFIG["googleAnalytics"];
+	$hackernews = strpos($_CONFIG["social"], "HackerNews") ? true : false;
+	$reddit = strpos($_CONFIG["social"], "Reddit") ? true : false;
+	$facebook = strpos($_CONFIG["social"], "Facebook") ? true : false;
+	$twitter = strpos($_CONFIG["social"], "Twitter") ? true : false;
 }
 
 
@@ -100,10 +115,6 @@ foreach($errors as $e)
 
 <label>Base URL:</label> <input type="text" name="baseDomain" value="<?php echo $baseDomain;?>" /><br />
 <label>Google Analytics:</label> <input type="text" name="googleAnalytics" value="<?php echo $googleAnalytics;?>" /> <nobr><small>Tracking code - e.g. <em>UA-00000001-4</em>.</small></nobr><br />
-<label>JS free analytics:</label> <select name="noJS">
-			<option <?php echo ($noJS)?"selected":"";?> value="true">Yes</option>
-			<option <?php echo (!$noJS)?"selected":"";?> value="false">No</option>
-			</select><br />
 <label>Show full posts:</label> <select name="fullOrPart">
 			<option <?php echo ($fullOrPart=="FULL")?"selected":"";?> value="FULL">Full posts on index pages</option>
 			<option <?php echo ($fullOrPart=="PART")?"selected":"";?> value="PART">Summaries only on index pages</option>
@@ -118,11 +129,6 @@ foreach($errors as $e)
 			<option <?php echo ($itemsPerPage=="25")?"selected":"";?> value="25">25</option>
 			<option <?php echo ($itemsPerPage=="99999")?"selected":"";?> value="99999">ALL</option>
 			</select><br />
-<label>Use Milligram CSS:</label> <select name="milligram">
-			<option <?php echo ($milligram)?"selected":"";?> value="true">Yes</option>
-			<option <?php echo (!$milligram)?"selected":"";?> value="false">No</option>
-			</select><br />
-
 <hr />
 <h3>Sharing</h3>
 

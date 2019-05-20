@@ -37,7 +37,7 @@ there is a potential demand for fast and lightweight publishing platforms...
 A server with PHP5+ that also has write access to the file system for creating folders and publishing files.
 
 ## Installation
-Upload everything to the root folder (no support for subfolder installation yet) and visit the homepage in a browser.
+Upload everything from /engine/ the root folder (no support for subfolder installation yet) and visit the homepage in a browser.
 
 
 ## Usage

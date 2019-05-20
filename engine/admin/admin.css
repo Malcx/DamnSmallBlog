@@ -1,0 +1,106 @@
+body{
+margin:40px auto;
+max-width:650px;
+line-height:1.6;
+font-size:18px;
+color:#444;
+padding:0 10px
+}
+h1,h2,h3{line-height:1.2}
+
+
+label{width:150px;display:inline-block;}
+input{width:200px;}
+small{font-size:12px;}
+.error{color:#e00;}
+.succss{color:#0c0;}
+
+.button{
+color:#333;
+text-decoration:none;
+border:1px solid #999;
+background-color:#ddd;
+font-family:tahoma;
+font-size:12px;
+padding:3px 5px;
+white-space: nowrap;
+}
+
+.button:hover{
+background-color:#dee;
+border-color:#33f;
+}
+
+
+
+
+#toggleButton{
+padding:0px 5px 10px 3px;
+overflow:hidden;
+width:20px;
+height:20px;
+z-index:10;
+text-align:center;
+position:relative;
+float:right;
+right:20px;
+top:-400px;
+opacity:0.3;
+}
+
+
+
+.deg45{
+font-size:18px;
+transform: rotate(-45deg);
+font-family:arial;
+display:inline-block;
+}
+
+#toggleButton:hover{
+opacity:1;
+cursor:pointer;
+}
+
+.fullButton{
+float:unset;
+position:absolute !important;
+top:5px !important;
+}
+
+
+#contentarea{
+overflow-y:scroll;
+width:100%;
+height:400px;
+padding:10px;
+box-sizing: border-box;
+}
+
+.full{
+z-index:5;
+height:99.9% !important;
+position:absolute;
+left:0;top:0;
+border:0px;
+padding:30px 20% !important;
+}
+
+.publish{
+	padding:6px 20px;
+	font-weight:bold;
+	font-size:1em;
+	background-color:#cec;
+}
+
+table{
+	width: 100%;
+	border-collapse: collapse;
+}
+
+table, th, td {
+    border: 1px solid #999;
+    padding:2px 10px;
+}
+tr:nth-child(odd)		{ background-color:#eee; }
+tr:nth-child(even)		{ background-color:#fff; }
